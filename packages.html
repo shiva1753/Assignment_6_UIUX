@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ExploreMore — Packages</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 0.8em;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #f5f5f5;
+    }
+    .highlight {
+      background-color: #e0f7fa;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1 class="brand">ExploreMore Travels</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="packages.html" class="active">Packages</a>
+        <a href="booking.html">Booking</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h2 class="page-title">Our Travel Packages</h2>
+        <p class="lead">
+          We have curated a range of travel packages to suit every taste and budget.
+        </p>
+
+        <div class="table-wrap">
+          <table id="packageTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Destination</th>
+                <th>Duration</th>
+                <th>Base Price</th>
+                <th>Season</th>
+                <th>Final Price</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2025 ExploreMore Travels</footer>
+
+  <script>
+    // Highlight active nav
+    document.querySelectorAll("nav a").forEach(link => {
+      if (link.href.includes("packages.html")) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+
+    const packages = [
+      { id: 1, destination: "Paris", durationDays: 7, basePrice: 1200, season: "Spring" },
+      { id: 2, destination: "Maldives", durationDays: 5, basePrice: 1500, season: "Winter" },
+      { id: 3, destination: "Bali", durationDays: 6, basePrice: 1100, season: "Summer" },
+      { id: 4, destination: "Tokyo", durationDays: 8, basePrice: 1600, season: "Autumn" }
+    ];
+
+    function calculateFinalPrice(pkg) {
+      let multiplier = 1;
+      switch (pkg.season) {
+        case "Winter": multiplier = 1.3; break;
+        case "Summer": multiplier = 1.2; break;
+        case "Spring": multiplier = 1.1; break;
+        case "Autumn": multiplier = 1.15; break;
+        default: multiplier = 1;
+      }
+
+      let finalPrice = pkg.basePrice * multiplier;
+
+      // Weekend surcharge if duration includes a weekend (assume >6 days includes weekend)
+      if (pkg.durationDays >= 6) {
+        finalPrice += 100;
+      }
+
+      return finalPrice.toFixed(2);
+    }
+
+    const tbody = document.querySelector("#packageTable tbody");
+    packages.forEach(pkg => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${pkg.id}</td>
+        <td>${pkg.destination}</td>
+        <td>${pkg.durationDays} Days</td>
+        <td>$${pkg.basePrice}</td>
+        <td>${pkg.season}</td>
+        <td>$${calculateFinalPrice(pkg)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  </script>
+</body>
+</html>

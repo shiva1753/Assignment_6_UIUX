@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ExploreMore — Gallery</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 1em;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    .modal.active {
+      display: block;
+    }
+    .modal img {
+      max-width: 100%;
+      height: auto;
+    }
+    .modal .caption {
+      margin-top: 0.5em;
+      font-weight: bold;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+    .overlay.active {
+      display: block;
+    }
+    .card.active {
+      border: 2px solid #0077cc;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <h1 class="brand">ExploreMore Travels</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="packages.html">Packages</a>
+        <a href="booking.html">Booking</a>
+        <a href="gallery.html" class="active">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h2 class="page-title">Travel Memories</h2>
+        <p class="lead">
+          Browse our collection of breathtaking destinations and traveler moments.
+        </p>
+
+        <div class="gallery">
+          <div class="card" data-image="./images/istockphoto-635758088-612x612.jpg" data-caption="Paris, France">
+            <img src="./images/istockphoto-635758088-612x612.jpg" alt="Paris">
+            <div class="cap">Paris, France</div>
+          </div>
+          <div class="card" data-image="./images/photo-1573843981267-be1999ff37cd.jpeg" data-caption="Maldives">
+            <img src="./images/photo-1573843981267-be1999ff37cd.jpeg" alt="Maldives">
+            <div class="cap">Maldives</div>
+          </div>
+          <div class="card" data-image="./images/istockphoto-675172642-612x612.jpg" data-caption="Bali, Indonesia">
+            <img src="./images/istockphoto-675172642-612x612.jpg" alt="Bali">
+            <div class="cap">Bali, Indonesia</div>
+          </div>
+          <div class="card" data-image="./images/istockphoto-484915982-612x612.jpg" data-caption="Tokyo, Japan">
+            <img src="./images/istockphoto-484915982-612x612.jpg" alt="Tokyo">
+            <div class="cap">Tokyo, Japan</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="modal" id="modal">
+    <img id="modalImg" src="" alt="">
+    <div class="caption" id="modalCaption"></div>
+  </div>
+
+  <footer>© 2025 ExploreMore Travels</footer>
+
+  <script>
+    // Highlight active nav
+    document.querySelectorAll("nav a").forEach(link => {
+      if (link.href.includes("gallery.html")) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+
+    // Modal logic
+    const cards = document.querySelectorAll(".card");
+    const modal = document.getElementById("modal");
+    const overlay = document.getElementById("overlay");
+    const modalImg = document.getElementById("modalImg");
+    const modalCaption = document.getElementById("modalCaption");
+
+    cards.forEach(card => {
+      card.addEventListener("click", () => {
+        // Remove active from all
+        cards.forEach(c => c.classList.remove("active"));
+        card.classList.add("active");
+
+        const imgSrc = card.getAttribute("data-image");
+        const caption = card.getAttribute("data-caption");
+
+        modalImg.src = imgSrc;
+        modalImg.alt = caption;
+        modalImg.title = caption;
+        modalCaption.textContent = caption;
+
+        modal.classList.add("active");
+        overlay.classList.add("active");
+      });
+    });
+
+    overlay.addEventListener("click", () => {
+      modal.classList.remove("active");
+      overlay.classList.remove("active");
+      cards.forEach(c => c.classList.remove("active"));
+    });
+  </script>
+</body>
+</html>

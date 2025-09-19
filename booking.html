@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ExploreMore — Booking</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1 class="brand">ExploreMore Travels</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="packages.html">Packages</a>
+        <a href="booking.html" class="active">Booking</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h2 class="page-title">Book Your Adventure</h2>
+        <p class="lead">
+          Ready to explore? Fill out our booking form and secure your trip today.
+        </p>
+
+        <form id="bookingForm">
+          <div>
+            <label>Name</label>
+            <input type="text" id="name" placeholder="Full Name" required>
+          </div>
+          <div>
+            <label>Email</label>
+            <input type="email" id="email" placeholder="you@example.com" required>
+          </div>
+          <div>
+            <label>Destination</label>
+            <select id="destination" required>
+              <option value="">Select destination…</option>
+              <option value="Paris">Paris</option>
+              <option value="Maldives">Maldives</option>
+              <option value="Bali">Bali</option>
+            </select>
+          </div>
+          <div>
+            <label>Package Type</label>
+            <select id="packageType" required>
+              <option value="">Select package…</option>
+              <option value="Standard">Standard</option>
+              <option value="Luxury">Luxury</option>
+              <option value="Family">Family</option>
+            </select>
+          </div>
+          <div>
+            <label>Start Date</label>
+            <input type="date" id="startDate" required>
+          </div>
+          <div>
+            <label>End Date</label>
+            <input type="date" id="endDate" required>
+          </div>
+          <div>
+            <label>Guests</label>
+            <input type="number" id="guests" min="1" value="1" required>
+          </div>
+          <div>
+            <label>Promo Code</label>
+            <input type="text" id="promoCode" placeholder="e.g. EARLYBIRD">
+          </div>
+          <div class="actions">
+            <button type="submit" id="submitBtn">Book Now</button>
+            <button type="reset">Reset</button>
+          </div>
+          <textarea placeholder="Any preferences or notes…"></textarea>
+        </form>
+
+        <div id="priceOutput" style="margin-top: 1em; font-weight: bold;"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2025 ExploreMore Travels</footer>
+
+  <script>
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const start = new Date(document.getElementById("startDate").value);
+      const end = new Date(document.getElementById("endDate").value);
+      const guests = parseInt(document.getElementById("guests").value);
+      const promo = document.getElementById("promoCode").value.trim().toUpperCase();
+
+      if (isNaN(start) || isNaN(end) || end <= start) {
+        alert("Please enter valid start and end dates.");
+        return;
+      }
+
+      let nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+      let basePrice = 1000; // default base price
+      let total = basePrice * nights;
+
+      // Guest multiplier
+      if (guests >= 2) {
+        total *= 1.2; // +20% for 2+ guests
+      }
+
+      // Promo code discount
+      switch (promo) {
+        case "EARLYBIRD":
+          total *= 0.9; // -10%
+          break;
+        case "FAMILYFUN":
+          total -= 200;
+          break;
+        case "LUXEDEAL":
+          total *= 0.85;
+          break;
+        default:
+          break;
+      }
+
+      document.getElementById("priceOutput").textContent =
+        `Estimated Price: ₹${total.toFixed(2)} for ${nights} night(s) and ${guests} guest(s).`;
+    });
+  </script>
+</body>
+</html>
